@@ -82,7 +82,7 @@ export default class RecipeRevenue extends React.Component {
         )}
         <ContentSection menuVisible={this.props.menuVisible}>
           <RecipeDetails onRecipeAdd={this.props.handleAddRecipe} />
-          <DF onRecipeAdd={this.props.handleAddRecipe} />
+          {/* <DF onRecipeAdd={this.props.handleAddRecipe} /> */}
           <RecipeList {...this.props} />
         </ContentSection>
       </RecipeRevenueWrapper>

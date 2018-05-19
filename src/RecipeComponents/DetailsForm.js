@@ -20,9 +20,6 @@ const GridLayout = styled.div`
   }
 `;
 
-const PageHeader = styled.header`
-  grid-area: header;
-`;
 const Form = styled.form`
   grid-area: details;
   section:last-child {
