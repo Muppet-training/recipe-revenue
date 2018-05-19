@@ -12,6 +12,27 @@ const RecipeUl = styled.ul`
   }
 `;
 
+const Form = styled.form`
+  grid-area: details;
+  section:last-child {
+    margin-bottom: 0px;
+  }
+`;
+
+const InputText = styled.input`
+  grid-area: input;
+  font-size: 18px;
+  line-height: 50px;
+  outline: 0px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  background-color: #f7f7f7;
+  padding-left: 20px;
+  &::placeholder {
+    color: #ccc;
+  }
+`;
+
 export default function RecipeList(props) {
   console.log('RecipeList - Passed Props: ', props);
   const total =
@@ -32,24 +53,27 @@ export default function RecipeList(props) {
       <hr />
       <h3>{total}</h3>
       <hr />
-      <input
-        type="text"
-        name="input1"
-        defaultValue={props.input1}
-        onChange={props.handleCalc}
-      />
-      <input
-        type="text"
-        name="input2"
-        defaultValue={props.input2}
-        onChange={props.handleCalc}
-      />
-      <input
-        type="text"
-        name="input3"
-        defaultValue={props.input3}
-        onChange={props.handleCalc}
-      />
+      <Form onSubmit={props.handleSubmit}>
+        <InputText
+          type="text"
+          name="input1"
+          defaultValue={props.input1}
+          onChange={props.handleCalc}
+        />
+        <InputText
+          type="text"
+          name="input2"
+          defaultValue={props.input2}
+          onChange={props.handleCalc}
+        />
+        <InputText
+          type="text"
+          name="input3"
+          defaultValue={props.input3}
+          onChange={props.handleCalc}
+        />
+        <button type="submit" hidden />
+      </Form>
     </div>
   );
 }

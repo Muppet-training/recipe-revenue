@@ -29,41 +29,41 @@ const ContentSection = styled.div`
   box-sizing: border-box;
 `;
 
-// const PushDownDiv = styled.div`
-//   margin-top: 100px;
-// `;
+const PushDownDiv = styled.div`
+  margin-top: 100px;
+`;
 
-// class RecipeForm extends React.Component {
-//   onChange(e) {
-//     e.preventDefault();
-//     console.log('Changing text: ', this.refs.name.value);
-//   }
+class RecipeForm extends React.Component {
+  onChange(e) {
+    e.preventDefault();
+    console.log('Changing text: ', this.refs.name.value);
+  }
 
-//   onSubmit(e) {
-//     e.preventDefault();
-//     console.log('Submit text: ', this.refs.name.value);
-//     const name = this.refs.name.value.trim();
-//     if (!name) {
-//       alert('Please Enter Recipe Name');
-//       return;
-//     }
-//     this.props.onRecipeAdd(name);
-//     this.refs.name.value = '';
-//   }
+  onSubmit(e) {
+    e.preventDefault();
+    console.log('Submit text: ', this.refs.name.value);
+    const name = this.refs.name.value.trim();
+    if (!name) {
+      alert('Please Enter Recipe Name');
+      return;
+    }
+    this.props.onRecipeAdd(name);
+    this.refs.name.value = '';
+  }
 
-//   render() {
-//     return (
-//       <PushDownDiv>
-//         <form onSubmit={this.onSubmit.bind(this)}>
-//           <div>
-//             <label>Recipe Name</label>
-//             <input type="text" ref="name" onChange={this.onChange.bind(this)} />
-//           </div>
-//         </form>
-//       </PushDownDiv>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <PushDownDiv>
+        <form onSubmit={this.onSubmit.bind(this)}>
+          <div>
+            <label>Recipe Name</label>
+            <input type="text" ref="name" onChange={this.onChange.bind(this)} />
+          </div>
+        </form>
+      </PushDownDiv>
+    );
+  }
+}
 
 export default class RecipeRevenue extends React.Component {
   render() {
@@ -81,8 +81,9 @@ export default class RecipeRevenue extends React.Component {
           ''
         )}
         <ContentSection menuVisible={this.props.menuVisible}>
-          <RecipeDetails onRecipeAdd={this.props.handleAddRecipe} />
-          {/* <DF onRecipeAdd={this.props.handleAddRecipe} /> */}
+          {/* <RecipeDetails onRecipeAdd={this.props.handleAddRecipe} /> */}
+          <RecipeForm />
+          <DF {...this.props} />
           <RecipeList {...this.props} />
         </ContentSection>
       </RecipeRevenueWrapper>

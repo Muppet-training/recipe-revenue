@@ -81,7 +81,25 @@ class App extends React.Component {
     console.log('Menu Item Clicked: ', e.target.innerText);
   }
 
+  addRecipe() {
+    const id = this.state.recipes.length + 1;
+    const newRecipe = {
+      id: id
+    };
+    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
+    return id;
+  }
+
   handleAddRecipe(name) {
+    const newRecipe = {
+      id: this.state.recipes.length + 1,
+      name: name
+    };
+
+    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
+  }
+
+  handleRecipeName(name) {
     const newRecipe = {
       id: this.state.recipes.length + 1,
       name: name
@@ -101,6 +119,27 @@ class App extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('Name: ', e.target);
+    console.log('Value: ', e.target);
+    // this.setState({ [e.target.name]: e.target.value });
+  }
+
+  // handleRecipeName(e) {
+  //   e.preventDefault();
+  //   console.log('Name: ', e.target.name);
+  //   console.log('Value: ', e.target.value);
+  //   if (e.target.name.includes('[x]')) {
+  //     const newRecipe = {
+  //       id: this.state.recipes.length + 1,
+  //       name: e.target.value
+  //     };
+  //     this.setState({ recipes: this.state.recipes.concat(newRecipe) });
+  //   }
+  //   // this.setState({ [e.target.name]: e.target.value });
+  // }
+
   render() {
     return (
       <StyledDiv>
@@ -111,6 +150,9 @@ class App extends React.Component {
           handleAddRecipe={this.handleAddRecipe.bind(this)}
           handleUpdate={this.handleUpdate.bind(this)}
           handleCalc={this.handleCalc.bind(this)}
+          handleSubmit={this.handleSubmit.bind(this)}
+          handleRecipeName={this.handleRecipeName.bind(this)}
+          addRecipe={this.addRecipe.bind(this)}
         />
       </StyledDiv>
     );

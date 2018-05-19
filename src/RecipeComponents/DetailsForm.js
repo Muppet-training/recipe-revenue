@@ -79,15 +79,16 @@ const SelectList = styled.select`
 `;
 
 class DetailsForm extends React.Component {
-  onChanged(e) {
+  onChange(e) {
     e.preventDefault();
-    console.log('Changing text: ', this.refs.name.value);
+    console.log('Changing text: ', e.target.value);
+    console.log('Changing text: ', e.target);
   }
 
-  onSubmited(e) {
+  onSubmit(e) {
     e.preventDefault();
-    console.log('Submit text: ', this.refs.name.value);
-    const name = this.refs.name.value.trim();
+    console.log('Submit text: ', e.target);
+    const name = e.target.value.trim();
     if (!name) {
       alert('Please Enter Recipe Name');
       return;
@@ -100,13 +101,11 @@ class DetailsForm extends React.Component {
     return (
       <div>
         <GridLayout>
-          <Form onSubmit={this.onSubmited.bind(this)}>
+          <Form onSubmit={this.onSubmit.bind(this)}>
             <InputSection>
               <Label>Recipe Name</Label>
               <InputText
                 type="text"
-                ref="name"
-                onChange={this.onChanged.bind(this)}
                 placeholder="Name of this recipe version"
               />
             </InputSection>
@@ -149,6 +148,7 @@ class DetailsForm extends React.Component {
                 <option value="3">8%</option>
               </SelectList>
             </InputSection>
+            <button type="submit" hidden />
           </Form>
         </GridLayout>
       </div>
