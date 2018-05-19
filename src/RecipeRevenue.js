@@ -5,6 +5,9 @@ import Navbar from './menus/Navbar';
 import MainMenu from './menus/MainMenu';
 import RecipeDetails from './RecipeComponents/RecipeDetails';
 
+import DetailsForm from './RecipeComponents/DetailsForm';
+import DF from './RecipeComponents/DF';
+
 const RecipeRevenueWrapper = styled.div`
   margin: 0px;
   padding: 0px;
@@ -26,6 +29,42 @@ const ContentSection = styled.div`
   box-sizing: border-box;
 `;
 
+// const PushDownDiv = styled.div`
+//   margin-top: 100px;
+// `;
+
+// class RecipeForm extends React.Component {
+//   onChange(e) {
+//     e.preventDefault();
+//     console.log('Changing text: ', this.refs.name.value);
+//   }
+
+//   onSubmit(e) {
+//     e.preventDefault();
+//     console.log('Submit text: ', this.refs.name.value);
+//     const name = this.refs.name.value.trim();
+//     if (!name) {
+//       alert('Please Enter Recipe Name');
+//       return;
+//     }
+//     this.props.onRecipeAdd(name);
+//     this.refs.name.value = '';
+//   }
+
+//   render() {
+//     return (
+//       <PushDownDiv>
+//         <form onSubmit={this.onSubmit.bind(this)}>
+//           <div>
+//             <label>Recipe Name</label>
+//             <input type="text" ref="name" onChange={this.onChange.bind(this)} />
+//           </div>
+//         </form>
+//       </PushDownDiv>
+//     );
+//   }
+// }
+
 export default class RecipeRevenue extends React.Component {
   render() {
     console.log('RecipeRevenue - Passed Props: ', this.props);
@@ -42,7 +81,8 @@ export default class RecipeRevenue extends React.Component {
           ''
         )}
         <ContentSection menuVisible={this.props.menuVisible}>
-          <RecipeDetails />
+          <RecipeDetails onRecipeAdd={this.props.handleAddRecipe} />
+          <DF onRecipeAdd={this.props.handleAddRecipe} />
           <RecipeList {...this.props} />
         </ContentSection>
       </RecipeRevenueWrapper>

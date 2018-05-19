@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const MenuItemli = styled.li`
   background-color: #f1f1f1;
@@ -53,15 +53,3 @@ export default function MainMenuItem(props) {
     </MenuItemli>
   );
 }
-
-// {
-//   props.menuName.subName ? (
-//     <SubMenuItemUl>
-//       {props.menuName.subName.map(subItem => (
-//         <SubMenuItemli>{subItem.name}</SubMenuItemli>
-//       ))}
-//     </SubMenuItemUl>
-//   ) : (
-//     ""
-//   )
-// }

@@ -26,7 +26,20 @@ class App extends React.Component {
       isRecipeDialogVisible: false,
       menuVisible: false,
       recipes: [
-        { id: 1, name: 'Pie', cost: 5 },
+        {
+          id: 1,
+          name: 'Pie',
+          details: [
+            { name: 'serves', amount: 6 },
+            { name: 'estSales', amount: 10 },
+            { name: 'staffTime', amount: 20 },
+            { name: 'cookingTime', amount: 50 },
+            { name: 'internal', amount: 0 },
+            { name: 'wastage', amount: 5 }
+          ],
+          cost: 5
+        },
+
         { id: 2, name: 'Cake', cost: 8 }
       ],
       menuItems: [
@@ -62,14 +75,19 @@ class App extends React.Component {
 
   handleToggleClick(e) {
     this.setState({ menuVisible: !this.state.menuVisible });
-    // this.setState({
-    //   menuVisible:
-    //     this.state.menuVisible === false ? true : false
-    // });
   }
 
   handleSubMenuClick(e) {
     console.log('Menu Item Clicked: ', e.target.innerText);
+  }
+
+  handleAddRecipe(name) {
+    const newRecipe = {
+      id: this.state.recipes.length + 1,
+      name: name
+    };
+
+    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
   }
 
   handleUpdate(e) {
@@ -81,12 +99,6 @@ class App extends React.Component {
     console.log('Name: ', e.target.name);
     console.log('Value: ', e.target.value);
     this.setState({ [e.target.name]: e.target.value });
-    // const input = e.target.value;
-    // this.setState(prevState => {
-    //   return {
-    //     int: Number(prevState.int) + Number(input)
-    //     }
-    // })
   }
 
   render() {
@@ -96,6 +108,7 @@ class App extends React.Component {
           {...this.state}
           handleToggleClick={this.handleToggleClick.bind(this)}
           handleSubMenuClick={this.handleSubMenuClick.bind(this)}
+          handleAddRecipe={this.handleAddRecipe.bind(this)}
           handleUpdate={this.handleUpdate.bind(this)}
           handleCalc={this.handleCalc.bind(this)}
         />
@@ -103,11 +116,5 @@ class App extends React.Component {
     );
   }
 }
-
-// const App = () => (
-//   <div style={styles}>
-//     <RecipeRevenue {...state} />
-//   </div>
-// );
 
 render(<App />, document.getElementById('root'));

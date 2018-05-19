@@ -19,7 +19,7 @@ const Button = styled.button`
 `;
 
 export default function MenuToggle(props) {
-  console.log('MenuToggle Props: ', props);
+  // console.log('MenuToggle Props: ', props);
   return (
     <ButtonWrapperDiv onClick={props.handleToggleClick}>
       <Button onClick={props.handleToggleClick}>x</Button>

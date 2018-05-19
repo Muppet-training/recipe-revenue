@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import MainMenuItem from "./MainMenuItem.js";
-import SubMainMenuItem from "./SubMainMenuItem.js";
+import React from 'react';
+import styled from 'styled-components';
+import MainMenuItem from './MainMenuItem.js';
+import SubMainMenuItem from './SubMainMenuItem.js';
 
 const MenuDiv = styled.div`
   background-color: #f1f1f1;
@@ -71,7 +71,7 @@ const SubMenuItemDiv = MenuItemDiv.extend`
 `;
 
 export default function MainMenu(props) {
-  console.log("MainMenu Props: ", props);
+  console.log('MainMenu Props: ', props);
   return (
     <MenuDiv>
       {props.menuItems ? (
@@ -86,20 +86,14 @@ export default function MainMenu(props) {
               {item.subName && item.subMenuVisible ? (
                 <SubMainMenuItem props={item} />
               ) : (
-                ""
+                ''
               )}
             </div>
           ))}
         </MenuItemUl>
       ) : (
-        ""
+        ''
       )}
     </MenuDiv>
   );
 }
-
-// <MenuItemUl>
-//   {props.menuItems.map(item => (
-//     <MainMenuItem key={item.name} menuName={item} />
-//   ))}
-// </MenuItemUl>
