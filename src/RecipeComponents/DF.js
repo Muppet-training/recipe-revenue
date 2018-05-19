@@ -87,13 +87,13 @@ export default function DF(props) {
     }
   }
 
-  function onChange(e) {
+  function onChangeName(e) {
     e.preventDefault();
-    console.log('Changing text: ', e.target.value);
-    console.log('Changing text: ', e.target.name);
-    // const name = e.target.value;
+    console.log('Changing text: ', e.currentTarget.value);
+    console.log('Changing text: ', e.currentTarget.name);
+    const name = e.currentTarget.value;
 
-    const id = checkRecipe(e.target.name);
+    const id = checkRecipe(e.currentTarget.name);
 
     console.log('New ID: ', id);
 
@@ -104,7 +104,7 @@ export default function DF(props) {
     //   };
     //   props.handleRecipeName(name);
     // }
-    // props.handleRecipeName(name);
+    props.handleRecipeName(name, id);
   }
 
   function onSubmit(e) {
@@ -156,7 +156,7 @@ export default function DF(props) {
             type="text"
             name="name[x]"
             placeholder="Name of this recipe version"
-            onChange={onChange}
+            onChange={onChangeName}
           />
         </InputSection>
         <InputSection>

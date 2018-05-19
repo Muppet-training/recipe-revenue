@@ -25,6 +25,8 @@ class App extends React.Component {
     this.state = {
       isRecipeDialogVisible: false,
       menuVisible: false,
+      editing: false,
+      editingId: 0,
       recipes: [
         {
           id: 1,
@@ -83,6 +85,7 @@ class App extends React.Component {
 
   addRecipe() {
     const id = this.state.recipes.length + 1;
+    console.log('newID: ', id);
     const newRecipe = {
       id: id
     };
@@ -90,16 +93,26 @@ class App extends React.Component {
     return id;
   }
 
-  handleAddRecipe(name) {
-    const newRecipe = {
-      id: this.state.recipes.length + 1,
-      name: name
-    };
+  handleRecipeName(name, id) {
+    console.log('ID: ', id);
+    console.log('Name: ', name);
+    const currentRecipes = this.state.recipes;
+    console.log('Recipes: ', currentRecipes);
 
-    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
+    currentRecipes[id] = name;
+    this.setState({ recipes: currentRecipes });
+
+    // const editRecipe = {
+    //   id: id,
+    //   name: name
+    // };
+    // this.setState(prevState => ({
+    //   recipes: [...prevState.recipes, editRecipe]
+    // }));
+    // this.setState({ recipes: this.state.recipes.concat(newRecipe) });
   }
 
-  handleRecipeName(name) {
+  handleAddRecipe(name) {
     const newRecipe = {
       id: this.state.recipes.length + 1,
       name: name
