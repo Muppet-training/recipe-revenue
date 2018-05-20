@@ -78,122 +78,47 @@ const SelectList = styled.select`
 `;
 
 export default function DF(props) {
-  console.log('DF - Passed Props: ', props);
+  // console.log('Props DF.. ', props.editRecipeValues);
 
-  function checkRecipe(recipeId) {
-    if (recipeId.includes('[x]')) {
-      const newId = props.addRecipe();
-      return newId;
-    }
+  function onChange(e) {
+    console.log('Changing Text.. ', e.currentTarget.value);
+    props.changeRecipeName(e.currentTarget.value);
   }
 
-  function onChangeName(e) {
+  function formSubmit(e) {
     e.preventDefault();
-    console.log('Changing text: ', e.currentTarget.value);
-    console.log('Changing text: ', e.currentTarget.name);
-    const name = e.currentTarget.value;
-
-    const id = checkRecipe(e.currentTarget.name);
-
-    console.log('New ID: ', id);
-
-    // if (e.target.name.includes('[x]')) {
-    //   const newRecipe = {
-    //     id: this.state.recipes.length + 1,
-    //     name: e.target.value
-    //   };
-    //   props.handleRecipeName(name);
-    // }
-    props.handleRecipeName(name, id);
-  }
-
-  function onSubmit(e) {
-    e.preventDefault();
-    console.log('Submit text: ', e.target);
-    const name = e.target.value.trim();
+    console.log('Submit Form.. ', e.currentTarget.name.value);
+    const name = e.currentTarget.name.value.trim();
     if (!name) {
-      alert('Please Enter Recipe Name');
+      alert('Please enter a recipe name');
       return;
     }
-    // this.props.onRecipeAdd(name);
-    props.handleRecipeName(name);
-    this.refs.name.value = '';
-  }
 
+    if (props.editingId) {
+      // console.log('Editing', props.editingId);
+      const updatedRecipeName = {
+        id: props.editingId,
+        name: name
+      };
+      props.onRecipeNameUpdate(updatedRecipeName);
+    } else {
+      props.onRecipeNameAdd(name);
+    }
+
+    e.currentTarget.name.value = '';
+  }
   return (
     <GridLayout>
-      <Form onSubmit={props.handleSubmit}>
-        <InputSection>
-          <Label>Amount 1</Label>
-          <InputText
-            type="text"
-            name="input1"
-            defaultValue={props.input1}
-            onChange={props.handleCalc}
-          />
-        </InputSection>
-        <InputSection>
-          <Label>Amount 2</Label>
-          <InputText
-            type="text"
-            name="input2"
-            defaultValue={props.input2}
-            onChange={props.handleCalc}
-          />
-        </InputSection>
-        <InputSection>
-          <Label>Amount 3</Label>
-          <InputText
-            type="text"
-            name="input3"
-            defaultValue={props.input3}
-            onChange={props.handleCalc}
-          />
-        </InputSection>
+      <Form onSubmit={formSubmit}>
         <InputSection>
           <Label>Recipe Name</Label>
           <InputText
             type="text"
-            name="name[x]"
+            name="name"
             placeholder="Name of this recipe version"
-            onChange={onChangeName}
+            value={props.editRecipeValues}
+            onChange={onChange}
           />
-        </InputSection>
-        <InputSection>
-          <Label>Recipe Serves</Label>
-          <InputText type="text" placeholder="Customer Serves" />
-        </InputSection>
-        <InputSection>
-          <Label>Sales Price</Label>
-          <InputText type="text" placeholder="Just a rough estimation" />
-        </InputSection>
-        <InputSection>
-          <Label>Expected Sales Per Day</Label>
-          <InputText type="text" placeholder="Average Sales p/day" />
-        </InputSection>
-        <InputSection>
-          <Label>Total Staff Time Involved</Label>
-          <InputText type="text" placeholder="Only cooking or prep time" />
-        </InputSection>
-        <InputSection>
-          <Label>Total Cooking Time</Label>
-          <InputText type="text" placeholder="Overall time to make recipe" />
-        </InputSection>
-        <InputSection>
-          <Label>Use as Internal Recipe</Label>
-          <SelectList>
-            <option value="0">No</option>
-            <option value="1">Yes</option>
-          </SelectList>
-        </InputSection>
-        <InputSection>
-          <Label>Recipe Wastage</Label>
-          <SelectList>
-            <option value="0">0%</option>
-            <option value="1">2%</option>
-            <option value="2">5%</option>
-            <option value="3">8%</option>
-          </SelectList>
         </InputSection>
         <button type="submit" hidden />
       </Form>

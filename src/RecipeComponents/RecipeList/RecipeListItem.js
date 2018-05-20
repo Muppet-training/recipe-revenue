@@ -1,11 +1,17 @@
 import React from 'react';
 
 export default function RecipeListItem(props) {
+  function editRecipe(recipe) {
+    return () => {
+      console.log('Recipe to edit: ', recipe);
+      props.onEditRecipe(recipe);
+    };
+  }
   return (
-    <div>
+    <div onClick={editRecipe(props)}>
       <hr />
+      <div>Recipe ID: {props.id}</div>
       <div>Recipe Name: {props.name}</div>
-      <div>Recipe Cost: {props.cost}</div>
 
       {props.details ? (
         <div>

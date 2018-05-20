@@ -1,5 +1,12 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link,
+//   Switch,
+//   Redirect
+// } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeRevenue from './RecipeRevenue';
 
@@ -25,7 +32,6 @@ class App extends React.Component {
     this.state = {
       isRecipeDialogVisible: false,
       menuVisible: false,
-      editing: false,
       editingId: 0,
       recipes: [
         {
@@ -38,12 +44,22 @@ class App extends React.Component {
             { name: 'cookingTime', amount: 50 },
             { name: 'internal', amount: 0 },
             { name: 'wastage', amount: 5 }
-          ],
-          cost: 5
+          ]
         },
-
-        { id: 2, name: 'Cake', cost: 8 }
+        {
+          id: 2,
+          name: 'Cake',
+          details: [
+            { name: 'serves', amount: 6 },
+            { name: 'estSales', amount: 6 },
+            { name: 'staffTime', amount: 6 },
+            { name: 'cookingTime', amount: 6 },
+            { name: 'internal', amount: 6 },
+            { name: 'wastage', amount: 6 }
+          ]
+        }
       ],
+      editRecipeValues: '',
       menuItems: [
         { name: 'Overview' },
         {
@@ -83,44 +99,6 @@ class App extends React.Component {
     console.log('Menu Item Clicked: ', e.target.innerText);
   }
 
-  addRecipe() {
-    const id = this.state.recipes.length + 1;
-    console.log('newID: ', id);
-    const newRecipe = {
-      id: id
-    };
-    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
-    return id;
-  }
-
-  handleRecipeName(name, id) {
-    console.log('ID: ', id);
-    console.log('Name: ', name);
-    const currentRecipes = this.state.recipes;
-    console.log('Recipes: ', currentRecipes);
-
-    currentRecipes[id] = name;
-    this.setState({ recipes: currentRecipes });
-
-    // const editRecipe = {
-    //   id: id,
-    //   name: name
-    // };
-    // this.setState(prevState => ({
-    //   recipes: [...prevState.recipes, editRecipe]
-    // }));
-    // this.setState({ recipes: this.state.recipes.concat(newRecipe) });
-  }
-
-  handleAddRecipe(name) {
-    const newRecipe = {
-      id: this.state.recipes.length + 1,
-      name: name
-    };
-
-    this.setState({ recipes: this.state.recipes.concat(newRecipe) });
-  }
-
   handleUpdate(e) {
     console.log('Hi');
     this.setState({ txt: e.target.value });
@@ -132,25 +110,61 @@ class App extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log('Name: ', e.target);
-    console.log('Value: ', e.target);
-    // this.setState({ [e.target.name]: e.target.value });
+  handleRecipeNameAdd(name) {
+    // console.log('STATE: ', this.state);
+    const recipeId = this.state.recipes.length + 1;
+    const newRecipeName = {
+      id: recipeId,
+      name: name
+    };
+    this.setState({
+      editingId: recipeId,
+      recipes: this.state.recipes.concat(newRecipeName)
+    });
   }
 
-  // handleRecipeName(e) {
-  //   e.preventDefault();
-  //   console.log('Name: ', e.target.name);
-  //   console.log('Value: ', e.target.value);
-  //   if (e.target.name.includes('[x]')) {
-  //     const newRecipe = {
-  //       id: this.state.recipes.length + 1,
-  //       name: e.target.value
-  //     };
-  //     this.setState({ recipes: this.state.recipes.concat(newRecipe) });
-  //   }
-  //   // this.setState({ [e.target.name]: e.target.value });
+  handleRecipeDelete(recipe) {
+    console.log('Delete this recipe: ', recipe);
+    const recipes = this.state.recipes;
+    for (var i = 0; i < recipes.length; i++) {
+      if (recipes[i].id == recipe.id) {
+        recipes.splice(i, 1);
+      }
+    }
+    this.setState({ recipes: recipes });
+  }
+
+  handleRecipeEdit(recipe) {
+    console.log('Editing this recipe ID: ', recipe.id);
+    this.setState({
+      editingId: recipe.id,
+      editRecipeValues: recipe.name
+    });
+  }
+
+  handleChangeRecipeName(recipeName) {
+    // console.log('Editing this recipe ID: ', recipeName);
+    this.setState({
+      editRecipeValues: recipeName
+    });
+  }
+
+  handleRecipeUpdate(recipe) {
+    console.log('Updated Recipe Name: ', recipe);
+    const recipes = this.state.recipes;
+    for (var i = 0; i < recipes.length; i++) {
+      if (recipes[i].id == recipe.id) {
+        // recipes.splice(i, 1);
+        recipes[i].name = recipe.name;
+        // this.setState({ recipes: recipes }); todos[i].text = todo.text.
+      }
+    }
+    // recipes.push(recipe);
+    this.setState({ recipes: recipes });
+  }
+
+  // handleGetEditRecipeValues(this.state.){
+
   // }
 
   render() {
@@ -160,16 +174,17 @@ class App extends React.Component {
           {...this.state}
           handleToggleClick={this.handleToggleClick.bind(this)}
           handleSubMenuClick={this.handleSubMenuClick.bind(this)}
-          handleAddRecipe={this.handleAddRecipe.bind(this)}
           handleUpdate={this.handleUpdate.bind(this)}
           handleCalc={this.handleCalc.bind(this)}
-          handleSubmit={this.handleSubmit.bind(this)}
-          handleRecipeName={this.handleRecipeName.bind(this)}
-          addRecipe={this.addRecipe.bind(this)}
+          onRecipeNameAdd={this.handleRecipeNameAdd.bind(this)}
+          onDeleteRecipe={this.handleRecipeDelete.bind(this)}
+          onEditRecipe={this.handleRecipeEdit.bind(this)}
+          changeRecipeName={this.handleChangeRecipeName.bind(this)}
+          onRecipeNameUpdate={this.handleRecipeUpdate.bind(this)}
         />
       </StyledDiv>
     );
   }
 }
 
-render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

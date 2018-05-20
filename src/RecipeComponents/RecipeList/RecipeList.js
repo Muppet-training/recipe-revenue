@@ -33,16 +33,32 @@ const InputText = styled.input`
   }
 `;
 
+const Delete = styled.button`
+  color: red;
+  margin-top: 1rem;
+`;
+
 export default function RecipeList(props) {
   console.log('RecipeList - Passed Props: ', props);
   const total =
     Number(props.input1) + Number(props.input2) + Number(props.input3);
+
+  function onDelete(recipe) {
+    return () => {
+      props.onDeleteRecipe(recipe);
+      console.log('Recipe to delete: ', recipe);
+    };
+  }
+
   return (
     <div>
       <RecipeUl id="recipe">
         {props.recipes.map(r => (
-          <li key={r.id}>
-            <RecipeListItem {...r} />
+          <li key={r.id} className={r.id}>
+            <RecipeListItem {...props} {...r} />
+            <Delete href="#" onClick={onDelete(r)}>
+              Delete Recipe
+            </Delete>
           </li>
         ))}
       </RecipeUl>
