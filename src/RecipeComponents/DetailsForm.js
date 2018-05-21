@@ -80,54 +80,92 @@ const SelectList = styled.select`
 
 class DetailsForm extends React.Component {
   constructor(props) {
-    super();
-    // const recipeId = props.editingId;
-    // console.log('props', props.recipes.length);
+    super(props);
+    console.log('EditingId: ', this.props.editingId);
     this.state = {
-      editingId: props.editingId,
-      name: '',
-      serves: '',
-      price: '',
-      sales: '',
-      staffTime: '',
-      cookingTime: ''
+      // editingId: this.props.editingId,
+      recipeToUpdate: {
+        id: this.props.editingId,
+        name: '',
+        serves: '',
+        serves: '',
+        estSales: '',
+        staffTime: '',
+        cookingTime: '',
+        internal: '',
+        wastage: ''
+      }
     };
+  }
+
+  handleRecipe = submittedRecipe =>
+    this.setState({
+      recipes: this.state.recipes
+        .filter(x => x.id !== submittedRecipe.id)
+        .concat([submittedRecipe])
+    });
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.editingId === prevState.recipeToUpdate.id) {
+      return null;
+    }
+
+    const filterRecipe = nextProps.recipes.filter(
+      recipe => recipe.id === nextProps.editingId
+    );
+
+    console.log('filterRecipe: ', filterRecipe[0]);
+    console.log('prevState.recipeToUpdate.id: ', prevState.recipeToUpdate.id);
+
+    console.log('getDerivedStateFromProps: ', nextProps);
+    return { recipeToUpdate: filterRecipe[0] };
   }
 
   onChange(e) {
     e.preventDefault();
-    console.log('Changing text: ', e.target.value);
-    console.log('Changing text: ', e.target.name);
-    this.setState({ [e.target.name]: e.target.value });
+    // console.log('Current State: ', this.state);
+    // console.log('Changing text: ', e.target.value);
+    // console.log('Changing text: ', e.target.name);
+    const updateName = e.currentTarget.name;
+    const updateValue = e.currentTarget.value;
+    this.setState((prevState, props) => ({
+      recipeToUpdate: {
+        // rest operator (...) expands out to:
+        ...prevState.recipeToUpdate, // x:0, y:0,
+        [updateName]: updateValue // overwrites old y
+      }
+      // radius is not overwritten by setState
+    }));
   }
 
   onSubmit(e) {
-    console.log('Target', e.currentTarget.name.value);
     e.preventDefault();
     const recipe = this.state;
+    console.log('Recipe To Submit!', recipe);
 
-    const name = recipe.name.trim();
+    const name = recipe.recipeToUpdate.name.trim();
 
     if (!name) {
       alert('Please Enter Recipe Name');
       return;
     }
-    if (!this.state.editingId) {
+
+    if (!this.state.recipeToUpdate.id) {
       console.log('Submit recipe: ', recipe);
-      const addedRecipe = this.props.handleRecipeAdd(recipe);
-      this.setState({
-        editingId: addedRecipe.id,
-        name: addedRecipe.name
-      });
+      this.props.handleRecipeAdd(recipe);
+      // this.setState({
+      //   editingId: addedRecipe.id,
+      //   name: addedRecipe.name
+      // });
     } else {
-      console.log('Editing: ', recipe);
-      const updatedRecipe = this.props.handleUpdateRecipe(recipe);
+      // console.log('Editing: ', recipe);
+      this.props.handleUpdateRecipe(recipe);
     }
 
     // this.refs.name.value = '';
   }
   render() {
-    console.log('Details Form: ', this.props);
+    console.log('Details Form: ', this.state);
     return (
       <div>
         <GridLayout>
@@ -138,7 +176,7 @@ class DetailsForm extends React.Component {
                 type="text"
                 placeholder="Name of this recipe version"
                 name="name"
-                value={this.state.name}
+                value={this.state.recipeToUpdate.name}
                 onChange={this.onChange.bind(this)}
               />
             </InputSection>
@@ -148,7 +186,7 @@ class DetailsForm extends React.Component {
                 type="text"
                 placeholder="Customer Serves"
                 name="serves"
-                value={this.state.serves}
+                value={this.state.recipeToUpdate.serves}
                 onChange={this.onChange.bind(this)}
               />
             </InputSection>

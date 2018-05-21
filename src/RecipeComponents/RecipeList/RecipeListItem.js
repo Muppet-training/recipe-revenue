@@ -7,26 +7,21 @@ export default function RecipeListItem(props) {
       props.onEditRecipe(recipe);
     };
   }
+  console.log('Recipe List Item: ', props);
   return (
     <div onClick={editRecipe(props)}>
       <hr />
       <div>Recipe ID: {props.id}</div>
       <div>Recipe Name: {props.name}</div>
-
-      {props.details ? (
-        <div>
-          <div>Recipe Details:</div>
-          <ul>
-            {props.details.map((d, index) => (
-              <li style={{ padding: '2px' }} key={index}>
-                {d.name}: {d.amount}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        ''
-      )}
+      <div>Recipe Details:</div>
+      <ul>
+        <li>Serves: {props.serves}</li>
+        <li>Est Sales: {props.estSales}</li>
+        <li>Staff Time: {props.staffTime}</li>
+        <li>Cooking Time: {props.cookingTime}</li>
+        <li>Internal: {props.internal}</li>
+        <li>Wastage: {props.wastage}</li>
+      </ul>
     </div>
   );
 }

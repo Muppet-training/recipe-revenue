@@ -33,36 +33,28 @@ class App extends React.Component {
       isRecipeDialogVisible: false,
       menuVisible: false,
       editingId: 0,
-      editValue: '',
       recipes: [
         {
           id: 1,
           name: 'Pie',
           serves: 6,
-          details: [
-            { name: 'serves', amount: 6 },
-            { name: 'estSales', amount: 10 },
-            { name: 'staffTime', amount: 20 },
-            { name: 'cookingTime', amount: 50 },
-            { name: 'internal', amount: 0 },
-            { name: 'wastage', amount: 5 }
-          ]
+          estSales: 10,
+          staffTime: 22,
+          cookingTime: 15,
+          internal: 5,
+          wastage: 7
         },
         {
           id: 2,
           name: 'Cake',
-          serves: 2,
-          details: [
-            { name: 'serves', amount: 6 },
-            { name: 'estSales', amount: 6 },
-            { name: 'staffTime', amount: 6 },
-            { name: 'cookingTime', amount: 6 },
-            { name: 'internal', amount: 6 },
-            { name: 'wastage', amount: 6 }
-          ]
+          serves: 6,
+          estSales: 6,
+          staffTime: 6,
+          cookingTime: 6,
+          internal: 6,
+          wastage: 6
         }
       ],
-
       menuItems: [
         { name: 'Overview' },
         {
@@ -99,12 +91,14 @@ class App extends React.Component {
   }
 
   handleRecipeAdd(recipe) {
-    console.log(recipe);
+    console.log('Adding Recipe: ', recipe);
     const recipeId = this.state.recipes.length + 1;
     const newRecipe = {
       id: recipeId,
-      name: recipe.name
+      name: recipe.recipeToUpdate.name,
+      serves: recipe.recipeToUpdate.serves
     };
+    console.log('newRecipeId:', recipeId);
     this.setState({
       editingId: recipeId,
       recipes: this.state.recipes.concat(newRecipe)
@@ -112,18 +106,28 @@ class App extends React.Component {
     return newRecipe;
   }
 
+  handleRecipe = submittedRecipe =>
+    this.setState({
+      recipes: this.state.recipes
+        .filter(x => x.id !== submittedRecipe.id)
+        .concat([submittedRecipe])
+    });
+
   handleUpdateRecipe(recipe) {
     console.log('Update Recipe:', recipe);
     const recipes = this.state.recipes;
     for (var i = 0; i < recipes.length; i++) {
-      if (recipes[i].id == recipe.editingId) {
+      if (recipes[i].id == recipe.recipeToUpdate.id) {
         // recipes.splice(i, 1);
-        recipes[i].name = recipe.name;
+        recipes[i].name = recipe.recipeToUpdate.name;
+        recipes[i].serves = recipe.recipeToUpdate.serves;
+
         // this.setState({ recipes: recipes }); todos[i].text = todo.text.
       }
     }
     // recipes.push(recipe);
     this.setState({ recipes: recipes });
+    return recipe;
   }
 
   handleSubMenuClick(e) {
