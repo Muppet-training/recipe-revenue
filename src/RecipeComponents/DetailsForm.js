@@ -81,9 +81,7 @@ const SelectList = styled.select`
 class DetailsForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log('EditingId: ', this.props.editingId);
     this.state = {
-      // editingId: this.props.editingId,
       recipeToUpdate: {
         id: this.props.editingId,
         name: '',
@@ -97,16 +95,8 @@ class DetailsForm extends React.Component {
       }
     };
   }
-
-  handleRecipe = submittedRecipe =>
-    this.setState({
-      recipes: this.state.recipes
-        .filter(x => x.id !== submittedRecipe.id)
-        .concat([submittedRecipe])
-    });
-
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('Passing Props!: ', nextProps);
+    // console.log('Passing Props!: ', nextProps);
     if (nextProps.editingId === prevState.recipeToUpdate.id) {
       return null;
     }
@@ -126,31 +116,13 @@ class DetailsForm extends React.Component {
       ];
       return { recipeToUpdate: filterRecipe[0] };
     }
-
     const filterRecipe = nextProps.recipes.filter(
       recipe => recipe.id === nextProps.editingId
     );
-
-    console.log('filterRecipe: ', filterRecipe[0]);
-    console.log('prevState.recipeToUpdate.id: ', prevState.recipeToUpdate.id);
-
-    console.log('getDerivedStateFromProps: ', nextProps);
     return { recipeToUpdate: filterRecipe[0] };
   }
-
-  checkInput() {
-    var x = document.forms['myForm']['age'].value;
-    if (isNaN(x)) {
-      alert('Must input numbers');
-      return false;
-    }
-  }
-
   onChange(e) {
     e.preventDefault();
-    // console.log('Current State: ', this.state);
-    console.log('Changing text: ', e.target.value);
-    console.log('Changing text: ', e.target.name);
     const updateName = e.currentTarget.name;
     var updateValue = e.currentTarget.value;
     const numberFields = [
@@ -158,14 +130,11 @@ class DetailsForm extends React.Component {
       'price',
       'estSales',
       'staffTime',
-      'cookingTime',
-      'internal',
-      'wastage'
+      'cookingTime'
     ];
     const isNumberField = numberFields.includes(updateName);
-
     if (isNumberField && isNaN(updateValue)) {
-      alert('Must input numbers');
+      alert('Input Field Must Contain Numbers');
       this.setState((prevState, props) => ({
         recipeToUpdate: {
           ...prevState.recipeToUpdate,
@@ -174,47 +143,32 @@ class DetailsForm extends React.Component {
       }));
       return;
     }
-
     if (isNumberField && updateValue != '') {
       updateValue = Number(updateValue);
       console.log('UpdateNumber:', updateValue);
     }
-
     this.setState((prevState, props) => ({
       recipeToUpdate: {
-        // rest operator (...) expands out to:
-        ...prevState.recipeToUpdate, // x:0, y:0,
-        [updateName]: updateValue // overwrites old y
+        ...prevState.recipeToUpdate,
+        [updateName]: updateValue
       }
-      // radius is not overwritten by setState
     }));
   }
 
   onSubmit(e) {
     e.preventDefault();
     const recipe = this.state;
-    console.log('Recipe To Submit!', recipe);
-
     const name = recipe.recipeToUpdate.name.trim();
-
     if (!name) {
       alert('Please Enter Recipe Name');
       return;
     }
-
     if (!this.state.recipeToUpdate.id) {
       console.log('Submit recipe: ', recipe);
       this.props.handleRecipeAdd(recipe);
-      // this.setState({
-      //   editingId: addedRecipe.id,
-      //   name: addedRecipe.name
-      // });
     } else {
-      // console.log('Editing: ', recipe);
       this.props.handleUpdateRecipe(recipe);
     }
-
-    // this.refs.name.value = '';
   }
   render() {
     console.log('Details Form: ', this.state);
@@ -282,22 +236,30 @@ class DetailsForm extends React.Component {
                 onChange={this.onChange.bind(this)}
               />
             </InputSection>
-            {/*<InputSection>
+            <InputSection>
               <Label>Use as Internal Recipe</Label>
-              <SelectList>
-                <option value="0">No</option>
-                <option value="1">Yes</option>
+              <SelectList
+                onChange={this.onChange.bind(this)}
+                name="internal"
+                value={this.state.recipeToUpdate.internal}
+              >
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
               </SelectList>
             </InputSection>
             <InputSection>
               <Label>Recipe Wastage</Label>
-              <SelectList>
+              <SelectList
+                onChange={this.onChange.bind(this)}
+                name="wastage"
+                value={this.state.recipeToUpdate.wastage}
+              >
                 <option value="0">0%</option>
-                <option value="1">2%</option>
-                <option value="2">5%</option>
-                <option value="3">8%</option>
+                <option value="2">2%</option>
+                <option value="5">5%</option>
+                <option value="8">8%</option>
               </SelectList>
-            </InputSection> */}
+            </InputSection>
             <button type="submit">Submit Recipe</button>
           </Form>
         </GridLayout>

@@ -42,8 +42,8 @@ class App extends React.Component {
           estSales: 10,
           staffTime: 22,
           cookingTime: 15,
-          internal: 5,
-          wastage: 7
+          internal: 'yes',
+          wastage: 8
         },
         {
           id: 2,
@@ -53,8 +53,8 @@ class App extends React.Component {
           estSales: 6,
           staffTime: 6,
           cookingTime: 6,
-          internal: 6,
-          wastage: 6
+          internal: 'no',
+          wastage: 2
         }
       ],
       menuItems: [
@@ -93,8 +93,8 @@ class App extends React.Component {
   }
 
   handleRecipeAdd(recipe) {
-    console.log('Adding Recipe: ', recipe);
-    const recipeId = this.state.recipes.length + 1;
+    const recipeCount = this.state.recipes.length;
+    const recipeId = this.state.recipes[recipeCount - 1].id + 1;
     recipe.recipeToUpdate.id = recipeId;
     this.setState({
       editingId: recipeId,
@@ -103,27 +103,23 @@ class App extends React.Component {
   }
 
   handleUpdateRecipe(recipe) {
-    console.log('Update Recipe:', recipe);
     const recipes = this.state.recipes;
     for (var i = 0; i < recipes.length; i++) {
       if (recipes[i].id == recipe.recipeToUpdate.id) {
         recipes[i] = recipe.recipeToUpdate;
       }
     }
-    console.log('Updated Recipe:', recipe);
     this.setState({ recipes: recipes });
     return recipe;
   }
 
   handleRecipeEdit(recipe) {
-    console.log('Editing this recipe ID: ', recipe.id);
     this.setState({
       editingId: recipe.id
     });
   }
 
   handleRecipeDelete(recipe) {
-    console.log('Delete this recipe: ', recipe);
     const recipes = this.state.recipes;
     for (var i = 0; i < recipes.length; i++) {
       if (recipes[i].id == recipe.id) {
@@ -133,72 +129,9 @@ class App extends React.Component {
     this.setState({ recipes: recipes, editingId: 0 });
   }
 
-  handleSubMenuClick(e) {
-    console.log('Menu Item Clicked: ', e.target.innerText);
-  }
-
-  handleUpdate(e) {
-    console.log('Hi');
-    this.setState({ txt: e.target.value });
-  }
-
   handleCalc(e) {
-    console.log('Name: ', e.target.name);
-    console.log('Value: ', e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   }
-
-  handleRecipeNameAdd(name) {
-    // console.log('STATE: ', this.state);
-    const recipeId = this.state.recipes.length + 1;
-    const newRecipeName = {
-      id: recipeId,
-      name: name
-    };
-    this.setState({
-      editingId: recipeId,
-      recipes: this.state.recipes.concat(newRecipeName)
-    });
-  }
-
-  handleChangeRecipeName(recipeName) {
-    // console.log('Editing this recipe ID: ', recipeName);
-    this.setState({
-      editValue: recipeName
-    });
-  }
-
-  handleChangeRecipeServes(recipeServes) {
-    this.setState({
-      editValue: recipeServes
-    });
-  }
-
-  handleRecipeUpdate(recipe) {
-    console.log('Updated Recipe Name: ', recipe);
-    const recipes = this.state.recipes;
-    for (var i = 0; i < recipes.length; i++) {
-      if (recipes[i].id == recipe.id) {
-        // recipes.splice(i, 1);
-        recipes[i].name = recipe.name;
-        // this.setState({ recipes: recipes }); todos[i].text = todo.text.
-      }
-    }
-    // recipes.push(recipe);
-    this.setState({ recipes: recipes });
-  }
-
-  handleChangeRecipe(name, value) {
-    console.log('Change Recipe Name: ', name);
-    console.log('Change Recipe Value: ', value);
-    this.setState({
-      editValue: value
-    });
-  }
-
-  // handleGetEditRecipeValues(this.state.){
-
-  // }
 
   render() {
     return (
@@ -208,17 +141,10 @@ class App extends React.Component {
           handleToggleClick={this.handleToggleClick.bind(this)}
           handleRecipeAdd={this.handleRecipeAdd.bind(this)}
           handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
-          // ----Space
-          handleSubMenuClick={this.handleSubMenuClick.bind(this)}
-          handleUpdate={this.handleUpdate.bind(this)}
-          handleCalc={this.handleCalc.bind(this)}
-          onRecipeNameAdd={this.handleRecipeNameAdd.bind(this)}
           onDeleteRecipe={this.handleRecipeDelete.bind(this)}
           onEditRecipe={this.handleRecipeEdit.bind(this)}
-          changeRecipeName={this.handleChangeRecipeName.bind(this)}
-          changeRecipeServes={this.handleChangeRecipeServes.bind(this)}
-          onRecipeNameUpdate={this.handleRecipeUpdate.bind(this)}
-          changeRecipe={this.handleChangeRecipe.bind(this)}
+          // ----Space
+          handleCalc={this.handleCalc.bind(this)}
         />
       </StyledDiv>
     );
