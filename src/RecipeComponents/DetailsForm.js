@@ -88,7 +88,6 @@ class DetailsForm extends React.Component {
         id: this.props.editingId,
         name: '',
         serves: '',
-        serves: '',
         estSales: '',
         staffTime: '',
         cookingTime: '',
@@ -106,8 +105,27 @@ class DetailsForm extends React.Component {
     });
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('Passing Props!: ', nextProps);
+
     if (nextProps.editingId === prevState.recipeToUpdate.id) {
       return null;
+    }
+
+    if (nextProps.editingId == 0) {
+      const filterRecipe = [
+        {
+          id: 0,
+          name: '',
+          serves: '',
+          estSales: '',
+          staffTime: '',
+          cookingTime: '',
+          internal: '',
+          wastage: ''
+        }
+      ];
+      // console.log('editingId 0 Recipe: ', filterRecipe);
+      return { recipeToUpdate: filterRecipe[0] };
     }
 
     const filterRecipe = nextProps.recipes.filter(
@@ -121,13 +139,39 @@ class DetailsForm extends React.Component {
     return { recipeToUpdate: filterRecipe[0] };
   }
 
+  checkInput() {
+    var x = document.forms['myForm']['age'].value;
+    if (isNaN(x)) {
+      alert('Must input numbers');
+      return false;
+    }
+  }
+
   onChange(e) {
     e.preventDefault();
     // console.log('Current State: ', this.state);
-    // console.log('Changing text: ', e.target.value);
-    // console.log('Changing text: ', e.target.name);
+    console.log('Changing text: ', e.target.value);
+    console.log('Changing text: ', e.target.name);
     const updateName = e.currentTarget.name;
-    const updateValue = e.currentTarget.value;
+    var updateValue = e.currentTarget.value;
+    const numberFields = [
+      'serves',
+      'estSales',
+      'staffTime',
+      'cookingTime',
+      'internal',
+      'wastage'
+    ];
+    const isNumberField = numberFields.includes(updateName);
+
+    if (isNumberField && isNaN(updateValue)) {
+      alert('Must input numbers');
+    }
+    if (isNumberField) {
+      updateValue = Number(updateValue);
+      console.log('UpdateNumber:', updateValue);
+    }
+
     this.setState((prevState, props) => ({
       recipeToUpdate: {
         // rest operator (...) expands out to:

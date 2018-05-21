@@ -106,28 +106,35 @@ class App extends React.Component {
     return newRecipe;
   }
 
-  handleRecipe = submittedRecipe =>
-    this.setState({
-      recipes: this.state.recipes
-        .filter(x => x.id !== submittedRecipe.id)
-        .concat([submittedRecipe])
-    });
-
   handleUpdateRecipe(recipe) {
     console.log('Update Recipe:', recipe);
     const recipes = this.state.recipes;
     for (var i = 0; i < recipes.length; i++) {
       if (recipes[i].id == recipe.recipeToUpdate.id) {
-        // recipes.splice(i, 1);
         recipes[i].name = recipe.recipeToUpdate.name;
         recipes[i].serves = recipe.recipeToUpdate.serves;
-
-        // this.setState({ recipes: recipes }); todos[i].text = todo.text.
       }
     }
-    // recipes.push(recipe);
     this.setState({ recipes: recipes });
     return recipe;
+  }
+
+  handleRecipeEdit(recipe) {
+    console.log('Editing this recipe ID: ', recipe.id);
+    this.setState({
+      editingId: recipe.id
+    });
+  }
+
+  handleRecipeDelete(recipe) {
+    console.log('Delete this recipe: ', recipe);
+    const recipes = this.state.recipes;
+    for (var i = 0; i < recipes.length; i++) {
+      if (recipes[i].id == recipe.id) {
+        recipes.splice(i, 1);
+      }
+    }
+    this.setState({ recipes: recipes, editingId: 0 });
   }
 
   handleSubMenuClick(e) {
@@ -155,25 +162,6 @@ class App extends React.Component {
     this.setState({
       editingId: recipeId,
       recipes: this.state.recipes.concat(newRecipeName)
-    });
-  }
-
-  handleRecipeDelete(recipe) {
-    console.log('Delete this recipe: ', recipe);
-    const recipes = this.state.recipes;
-    for (var i = 0; i < recipes.length; i++) {
-      if (recipes[i].id == recipe.id) {
-        recipes.splice(i, 1);
-      }
-    }
-    this.setState({ recipes: recipes });
-  }
-
-  handleRecipeEdit(recipe) {
-    console.log('Editing this recipe ID: ', recipe.id);
-    this.setState({
-      editingId: recipe.id,
-      editValue: recipe.name
     });
   }
 
