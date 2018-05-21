@@ -38,6 +38,7 @@ class App extends React.Component {
           id: 1,
           name: 'Pie',
           serves: 6,
+          price: 6,
           estSales: 10,
           staffTime: 22,
           cookingTime: 15,
@@ -48,6 +49,7 @@ class App extends React.Component {
           id: 2,
           name: 'Cake',
           serves: 6,
+          price: 6,
           estSales: 6,
           staffTime: 6,
           cookingTime: 6,
@@ -93,17 +95,11 @@ class App extends React.Component {
   handleRecipeAdd(recipe) {
     console.log('Adding Recipe: ', recipe);
     const recipeId = this.state.recipes.length + 1;
-    const newRecipe = {
-      id: recipeId,
-      name: recipe.recipeToUpdate.name,
-      serves: recipe.recipeToUpdate.serves
-    };
-    console.log('newRecipeId:', recipeId);
+    recipe.recipeToUpdate.id = recipeId;
     this.setState({
       editingId: recipeId,
-      recipes: this.state.recipes.concat(newRecipe)
+      recipes: this.state.recipes.concat(recipe.recipeToUpdate)
     });
-    return newRecipe;
   }
 
   handleUpdateRecipe(recipe) {
@@ -111,10 +107,10 @@ class App extends React.Component {
     const recipes = this.state.recipes;
     for (var i = 0; i < recipes.length; i++) {
       if (recipes[i].id == recipe.recipeToUpdate.id) {
-        recipes[i].name = recipe.recipeToUpdate.name;
-        recipes[i].serves = recipe.recipeToUpdate.serves;
+        recipes[i] = recipe.recipeToUpdate;
       }
     }
+    console.log('Updated Recipe:', recipe);
     this.setState({ recipes: recipes });
     return recipe;
   }

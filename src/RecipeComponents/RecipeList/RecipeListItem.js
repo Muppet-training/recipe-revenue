@@ -16,6 +16,7 @@ export default function RecipeListItem(props) {
       <div>Recipe Details:</div>
       <ul>
         <li>Serves: {props.serves}</li>
+        <li>Price: {props.price}</li>
         <li>Est Sales: {props.estSales}</li>
         <li>Staff Time: {props.staffTime}</li>
         <li>Cooking Time: {props.cookingTime}</li>

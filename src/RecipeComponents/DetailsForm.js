@@ -88,6 +88,7 @@ class DetailsForm extends React.Component {
         id: this.props.editingId,
         name: '',
         serves: '',
+        price: '',
         estSales: '',
         staffTime: '',
         cookingTime: '',
@@ -106,17 +107,16 @@ class DetailsForm extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log('Passing Props!: ', nextProps);
-
     if (nextProps.editingId === prevState.recipeToUpdate.id) {
       return null;
     }
-
     if (nextProps.editingId == 0) {
       const filterRecipe = [
         {
           id: 0,
           name: '',
           serves: '',
+          price: '',
           estSales: '',
           staffTime: '',
           cookingTime: '',
@@ -124,7 +124,6 @@ class DetailsForm extends React.Component {
           wastage: ''
         }
       ];
-      // console.log('editingId 0 Recipe: ', filterRecipe);
       return { recipeToUpdate: filterRecipe[0] };
     }
 
@@ -156,6 +155,7 @@ class DetailsForm extends React.Component {
     var updateValue = e.currentTarget.value;
     const numberFields = [
       'serves',
+      'price',
       'estSales',
       'staffTime',
       'cookingTime',
@@ -166,8 +166,16 @@ class DetailsForm extends React.Component {
 
     if (isNumberField && isNaN(updateValue)) {
       alert('Must input numbers');
+      this.setState((prevState, props) => ({
+        recipeToUpdate: {
+          ...prevState.recipeToUpdate,
+          [updateName]: ''
+        }
+      }));
+      return;
     }
-    if (isNumberField) {
+
+    if (isNumberField && updateValue != '') {
       updateValue = Number(updateValue);
       console.log('UpdateNumber:', updateValue);
     }
@@ -234,26 +242,47 @@ class DetailsForm extends React.Component {
                 onChange={this.onChange.bind(this)}
               />
             </InputSection>
-            {/*<InputSection>
+            <InputSection>
               <Label>Sales Price</Label>
-              <InputText type="text" placeholder="Just a rough estimation" />
+              <InputText
+                type="text"
+                placeholder="Just a rough estimation"
+                name="price"
+                value={this.state.recipeToUpdate.price}
+                onChange={this.onChange.bind(this)}
+              />
             </InputSection>
             <InputSection>
               <Label>Expected Sales Per Day</Label>
-              <InputText type="text" placeholder="Average Sales p/day" />
+              <InputText
+                type="text"
+                placeholder="Average Sales p/day"
+                name="estSales"
+                value={this.state.recipeToUpdate.estSales}
+                onChange={this.onChange.bind(this)}
+              />
             </InputSection>
             <InputSection>
               <Label>Total Staff Time Involved</Label>
-              <InputText type="text" placeholder="Only cooking or prep time" />
+              <InputText
+                type="text"
+                placeholder="Only cooking or prep time"
+                name="staffTime"
+                value={this.state.recipeToUpdate.staffTime}
+                onChange={this.onChange.bind(this)}
+              />
             </InputSection>
             <InputSection>
               <Label>Total Cooking Time</Label>
               <InputText
                 type="text"
                 placeholder="Overall time to make recipe"
+                name="cookingTime"
+                value={this.state.recipeToUpdate.cookingTime}
+                onChange={this.onChange.bind(this)}
               />
             </InputSection>
-            <InputSection>
+            {/*<InputSection>
               <Label>Use as Internal Recipe</Label>
               <SelectList>
                 <option value="0">No</option>
