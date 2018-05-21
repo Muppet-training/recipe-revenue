@@ -111,7 +111,6 @@ export default function RecipeDetails(props) {
           <HeadingOne>Recipe Details</HeadingOne>
         </PageHeader>
         <DetailsSection>
-          <DF {...props} />
           <DetailsForm {...props} />
         </DetailsSection>
 

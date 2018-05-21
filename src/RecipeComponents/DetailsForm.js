@@ -79,22 +79,52 @@ const SelectList = styled.select`
 `;
 
 class DetailsForm extends React.Component {
+  constructor(props) {
+    super();
+    // const recipeId = props.editingId;
+    // console.log('props', props.recipes.length);
+    this.state = {
+      editingId: props.editingId,
+      name: '',
+      serves: '',
+      price: '',
+      sales: '',
+      staffTime: '',
+      cookingTime: ''
+    };
+  }
+
   onChange(e) {
     e.preventDefault();
     console.log('Changing text: ', e.target.value);
-    console.log('Changing text: ', e.target);
+    console.log('Changing text: ', e.target.name);
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
+    console.log('Target', e.currentTarget.name.value);
     e.preventDefault();
-    console.log('Submit text: ', e.target);
-    const name = e.target.value.trim();
+    const recipe = this.state;
+
+    const name = recipe.name.trim();
+
     if (!name) {
       alert('Please Enter Recipe Name');
       return;
     }
-    this.props.onRecipeAdd(name);
-    this.refs.name.value = '';
+    if (!this.state.editingId) {
+      console.log('Submit recipe: ', recipe);
+      const addedRecipe = this.props.handleRecipeAdd(recipe);
+      this.setState({
+        editingId: addedRecipe.id,
+        name: addedRecipe.name
+      });
+    } else {
+      console.log('Editing: ', recipe);
+      const updatedRecipe = this.props.handleUpdateRecipe(recipe);
+    }
+
+    // this.refs.name.value = '';
   }
   render() {
     console.log('Details Form: ', this.props);
@@ -107,13 +137,22 @@ class DetailsForm extends React.Component {
               <InputText
                 type="text"
                 placeholder="Name of this recipe version"
+                name="name"
+                value={this.state.name}
+                onChange={this.onChange.bind(this)}
               />
             </InputSection>
             <InputSection>
               <Label>Recipe Serves</Label>
-              <InputText type="text" placeholder="Customer Serves" />
+              <InputText
+                type="text"
+                placeholder="Customer Serves"
+                name="serves"
+                value={this.state.serves}
+                onChange={this.onChange.bind(this)}
+              />
             </InputSection>
-            <InputSection>
+            {/*<InputSection>
               <Label>Sales Price</Label>
               <InputText type="text" placeholder="Just a rough estimation" />
             </InputSection>
@@ -147,8 +186,8 @@ class DetailsForm extends React.Component {
                 <option value="2">5%</option>
                 <option value="3">8%</option>
               </SelectList>
-            </InputSection>
-            <button type="submit" hidden />
+            </InputSection> */}
+            <button type="submit">Submit Recipe</button>
           </Form>
         </GridLayout>
       </div>

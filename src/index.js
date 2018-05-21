@@ -33,10 +33,12 @@ class App extends React.Component {
       isRecipeDialogVisible: false,
       menuVisible: false,
       editingId: 0,
+      editValue: '',
       recipes: [
         {
           id: 1,
           name: 'Pie',
+          serves: 6,
           details: [
             { name: 'serves', amount: 6 },
             { name: 'estSales', amount: 10 },
@@ -49,6 +51,7 @@ class App extends React.Component {
         {
           id: 2,
           name: 'Cake',
+          serves: 2,
           details: [
             { name: 'serves', amount: 6 },
             { name: 'estSales', amount: 6 },
@@ -59,7 +62,7 @@ class App extends React.Component {
           ]
         }
       ],
-      editRecipeValues: '',
+
       menuItems: [
         { name: 'Overview' },
         {
@@ -93,6 +96,34 @@ class App extends React.Component {
 
   handleToggleClick(e) {
     this.setState({ menuVisible: !this.state.menuVisible });
+  }
+
+  handleRecipeAdd(recipe) {
+    console.log(recipe);
+    const recipeId = this.state.recipes.length + 1;
+    const newRecipe = {
+      id: recipeId,
+      name: recipe.name
+    };
+    this.setState({
+      editingId: recipeId,
+      recipes: this.state.recipes.concat(newRecipe)
+    });
+    return newRecipe;
+  }
+
+  handleUpdateRecipe(recipe) {
+    console.log('Update Recipe:', recipe);
+    const recipes = this.state.recipes;
+    for (var i = 0; i < recipes.length; i++) {
+      if (recipes[i].id == recipe.editingId) {
+        // recipes.splice(i, 1);
+        recipes[i].name = recipe.name;
+        // this.setState({ recipes: recipes }); todos[i].text = todo.text.
+      }
+    }
+    // recipes.push(recipe);
+    this.setState({ recipes: recipes });
   }
 
   handleSubMenuClick(e) {
@@ -138,14 +169,20 @@ class App extends React.Component {
     console.log('Editing this recipe ID: ', recipe.id);
     this.setState({
       editingId: recipe.id,
-      editRecipeValues: recipe.name
+      editValue: recipe.name
     });
   }
 
   handleChangeRecipeName(recipeName) {
     // console.log('Editing this recipe ID: ', recipeName);
     this.setState({
-      editRecipeValues: recipeName
+      editValue: recipeName
+    });
+  }
+
+  handleChangeRecipeServes(recipeServes) {
+    this.setState({
+      editValue: recipeServes
     });
   }
 
@@ -163,6 +200,14 @@ class App extends React.Component {
     this.setState({ recipes: recipes });
   }
 
+  handleChangeRecipe(name, value) {
+    console.log('Change Recipe Name: ', name);
+    console.log('Change Recipe Value: ', value);
+    this.setState({
+      editValue: value
+    });
+  }
+
   // handleGetEditRecipeValues(this.state.){
 
   // }
@@ -173,6 +218,9 @@ class App extends React.Component {
         <RecipeRevenue
           {...this.state}
           handleToggleClick={this.handleToggleClick.bind(this)}
+          handleRecipeAdd={this.handleRecipeAdd.bind(this)}
+          handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
+          // ----Space
           handleSubMenuClick={this.handleSubMenuClick.bind(this)}
           handleUpdate={this.handleUpdate.bind(this)}
           handleCalc={this.handleCalc.bind(this)}
@@ -180,7 +228,9 @@ class App extends React.Component {
           onDeleteRecipe={this.handleRecipeDelete.bind(this)}
           onEditRecipe={this.handleRecipeEdit.bind(this)}
           changeRecipeName={this.handleChangeRecipeName.bind(this)}
+          changeRecipeServes={this.handleChangeRecipeServes.bind(this)}
           onRecipeNameUpdate={this.handleRecipeUpdate.bind(this)}
+          changeRecipe={this.handleChangeRecipe.bind(this)}
         />
       </StyledDiv>
     );

@@ -78,11 +78,23 @@ const SelectList = styled.select`
 `;
 
 export default function DF(props) {
-  // console.log('Props DF.. ', props.editRecipeValues);
+  console.log('Props DF.. ', props);
+
+  // function onChangeRecipeName(e) {
+  //   console.log('Changing Text.. ', e.currentTarget.value);
+  //   props.changeRecipeName(e.currentTarget.value);
+  // }
+
+  // function onChangeRecipeServes(e) {
+  //   console.log('Changing Text.. ', e.currentTarget.value);
+  //   props.changeRecipeServes(e.currentTarget.value);
+  // }
 
   function onChange(e) {
+    console.log('Changing Text.. ', e.currentTarget.name);
     console.log('Changing Text.. ', e.currentTarget.value);
-    props.changeRecipeName(e.currentTarget.value);
+    console.log('Changing Text recipe prop.. ', props.recipe);
+    props.changeRecipe(e.currentTarget.name, e.currentTarget.value);
   }
 
   function formSubmit(e) {
@@ -107,6 +119,7 @@ export default function DF(props) {
 
     e.currentTarget.name.value = '';
   }
+
   return (
     <GridLayout>
       <Form onSubmit={formSubmit}>
@@ -116,11 +129,12 @@ export default function DF(props) {
             type="text"
             name="name"
             placeholder="Name of this recipe version"
-            value={props.editRecipeValues}
+            value={props.editValue}
             onChange={onChange}
           />
         </InputSection>
-        <button type="submit" hidden />
+
+        <input type="submit" hidden />
       </Form>
     </GridLayout>
   );
