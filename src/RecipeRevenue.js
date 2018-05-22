@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import RecipeList from './RecipeComponents/RecipeList/RecipeList';
-import Navbar from './menus/Navbar';
-import MainMenu from './menus/MainMenu';
+import Navbar from './Menus/Navbar';
+import MainMenu from './Menus/MainMenu';
 import RecipeDetails from './RecipeComponents/RecipeDetails';
 
 import DetailsForm from './RecipeComponents/DetailsForm';

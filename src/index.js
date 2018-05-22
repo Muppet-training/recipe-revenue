@@ -1,14 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Link,
-//   Switch,
-//   Redirect
-// } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Switch, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import RecipeRevenue from './RecipeRevenue';
+import Home from './Home';
 
 const StyledDiv = styled.div`
   font-family: 'Montserrat' !important;
@@ -145,19 +140,29 @@ class App extends React.Component {
 
   render() {
     return (
-      <StyledDiv>
-        <RecipeRevenue
-          {...this.state}
-          handleToggleClick={this.handleToggleClick.bind(this)}
-          handleAddRecipeButton={this.handleAddRecipeButton.bind(this)}
-          handleRecipeAdd={this.handleRecipeAdd.bind(this)}
-          handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
-          onDeleteRecipe={this.handleRecipeDelete.bind(this)}
-          onEditRecipe={this.handleRecipeEdit.bind(this)}
-          // ----Space
-          handleCalc={this.handleCalc.bind(this)}
-        />
-      </StyledDiv>
+      <BrowserRouter>
+        <StyledDiv>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route
+              path="/recipe"
+              render={props => (
+                <RecipeRevenue
+                  {...this.state}
+                  handleToggleClick={this.handleToggleClick.bind(this)}
+                  handleAddRecipeButton={this.handleAddRecipeButton.bind(this)}
+                  handleRecipeAdd={this.handleRecipeAdd.bind(this)}
+                  handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
+                  onDeleteRecipe={this.handleRecipeDelete.bind(this)}
+                  onEditRecipe={this.handleRecipeEdit.bind(this)}
+                  // ----Space
+                  handleCalc={this.handleCalc.bind(this)}
+                />
+              )}
+            />
+          </Switch>
+        </StyledDiv>
+      </BrowserRouter>
     );
   }
 }
