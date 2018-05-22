@@ -9,7 +9,7 @@ const MenuDiv = styled.div`
   height: 100vh;
   width: 180px;
   position: fixed;
-  top: 50px;
+  top: 40px;
   padding: 0;
   margin: 0;
   list: none;

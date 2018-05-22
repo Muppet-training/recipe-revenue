@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import RecipeRevenue from './RecipeRevenue';
 
 const StyledDiv = styled.div`
-  font-family: 'Montserrat';
+  font-family: 'Montserrat' !important;
   font-weight: 300;
   color: #212121;
   font-size: 14px;
@@ -22,6 +22,12 @@ const StyledDiv = styled.div`
   h4,
   h5,
   h6 {
+    font-weight: 400;
+  }
+  input,
+  textarea,
+  select,
+  button {
     font-weight: 400;
   }
 `;
@@ -92,6 +98,10 @@ class App extends React.Component {
     this.setState({ menuVisible: !this.state.menuVisible });
   }
 
+  handleAddRecipeButton(e) {
+    this.setState({ editingId: 0 });
+  }
+
   handleRecipeAdd(recipe) {
     const recipeCount = this.state.recipes.length;
     const recipeId = this.state.recipes[recipeCount - 1].id + 1;
@@ -139,6 +149,7 @@ class App extends React.Component {
         <RecipeRevenue
           {...this.state}
           handleToggleClick={this.handleToggleClick.bind(this)}
+          handleAddRecipeButton={this.handleAddRecipeButton.bind(this)}
           handleRecipeAdd={this.handleRecipeAdd.bind(this)}
           handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
           onDeleteRecipe={this.handleRecipeDelete.bind(this)}

@@ -70,7 +70,10 @@ export default class RecipeRevenue extends React.Component {
     console.log('RecipeRevenue - Passed Props: ', this.props);
     return (
       <RecipeRevenueWrapper>
-        <Navbar handleToggleClick={this.props.handleToggleClick} />
+        <Navbar
+          handleToggleClick={this.props.handleToggleClick}
+          handleAddRecipeButton={this.props.handleAddRecipeButton}
+        />
         {this.props.menuVisible ? (
           <MainMenu
             menuItems={this.props.menuItems}
