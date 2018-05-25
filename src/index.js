@@ -171,6 +171,12 @@ class App extends React.Component {
       box-sizing: border-box;
       overflow-x: hidden;
     `;
+
+    function Child(props) {
+      console.log('id:', props);
+      return <p>HI</p>;
+    }
+
     return (
       <BrowserRouter>
         <RecipeRevenueWrapper>
@@ -192,6 +198,7 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route
                 path="/recipes"
+                exact
                 render={props => (
                   <RecipeList
                     {...this.state}
@@ -201,6 +208,8 @@ class App extends React.Component {
                   />
                 )}
               />
+              <Route path="/recipes/edit?:id" component={Child} />
+
               <Route
                 path="/recipe"
                 render={props => (

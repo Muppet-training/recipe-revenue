@@ -1,12 +1,19 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-// this also works with react-router-native
+import styled from 'styled-components';
+
+const Item = styled.div`
+  cursor: pointer;
+`;
 
 export default function RecipeListItem(props) {
   const ListItem = withRouter(({ history }) => (
-    <div
+    <Item
       onClick={() => {
-        history.push('/recipe');
+        history.push({
+          pathname: '/recipes/edit',
+          search: props.name
+        });
         // function_two();
         editRecipe(props);
       }}
@@ -24,7 +31,7 @@ export default function RecipeListItem(props) {
         <li>Internal: {props.internal}</li>
         <li>Wastage: {props.wastage}</li>
       </ul>
-    </div>
+    </Item>
   ));
   function editRecipe(recipe) {
     console.log('Recipe to edit: ', recipe);

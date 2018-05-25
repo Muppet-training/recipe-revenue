@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import MainMenuItem from './MainMenuItem.js';
 import SubMainMenuItem from './SubMainMenuItem.js';
 
 const MenuDiv = styled.div`
@@ -79,9 +79,11 @@ export default function MainMenu(props) {
           {props.menuItems.map(item => (
             <div key={item.name}>
               <MenuItemli>
-                <MenuItemDiv onClick={props.handleSubMenuClick}>
-                  {item.name}
-                </MenuItemDiv>
+                <Link to={'/' + item.name}>
+                  <MenuItemDiv onClick={props.handleSubMenuClick}>
+                    {item.name}
+                  </MenuItemDiv>
+                </Link>
               </MenuItemli>
               {item.subName && item.subMenuVisible ? (
                 <SubMainMenuItem props={item} />
