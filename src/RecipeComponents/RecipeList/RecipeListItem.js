@@ -11,10 +11,8 @@ export default function RecipeListItem(props) {
     <Item
       onClick={() => {
         history.push({
-          pathname: '/recipes/edit',
-          search: props.name
+          pathname: '/recipe/edit/' + props.name
         });
-        // function_two();
         editRecipe(props);
       }}
     >

@@ -7,6 +7,7 @@ import Home from './Home';
 import RecipeList from './RecipeComponents/RecipeList/RecipeList';
 import Navbar from './Menus/Navbar';
 import MainMenu from './Menus/MainMenu';
+import recipes from './recipesData';
 
 injectGlobal`
   body{
@@ -43,30 +44,7 @@ class App extends React.Component {
       isRecipeDialogVisible: false,
       menuVisible: false,
       editingId: 0,
-      recipes: [
-        {
-          id: 1,
-          name: 'Pie',
-          serves: 6,
-          price: 6,
-          estSales: 10,
-          staffTime: 22,
-          cookingTime: 15,
-          internal: 'yes',
-          wastage: 8
-        },
-        {
-          id: 2,
-          name: 'Cake',
-          serves: 6,
-          price: 6,
-          estSales: 6,
-          staffTime: 6,
-          cookingTime: 6,
-          internal: 'no',
-          wastage: 2
-        }
-      ],
+      recipes: recipes,
       menuItems: [
         { name: 'Overview' },
         {
@@ -195,7 +173,6 @@ class App extends React.Component {
           )}
           <ContentSection menuVisible={this.props.menuVisible}>
             <Switch>
-              <Route exact path="/" component={Home} />
               <Route
                 path="/recipes"
                 exact
@@ -208,7 +185,7 @@ class App extends React.Component {
                   />
                 )}
               />
-              <Route path="/recipes/edit?:id" component={Child} />
+              {/* <Route path="/recipes/edit?:id" component={Child} /> */}
 
               <Route
                 path="/recipe"
@@ -228,6 +205,7 @@ class App extends React.Component {
                   />
                 )}
               />
+              <Route path="/" component={Home} />
             </Switch>
           </ContentSection>
         </RecipeRevenueWrapper>
