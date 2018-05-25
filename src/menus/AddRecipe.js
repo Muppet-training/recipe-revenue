@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ButtonWrapperDiv = styled.div`
@@ -10,7 +11,7 @@ const ButtonWrapperDiv = styled.div`
   justify-content: center;
 `;
 
-const Button = styled.button`
+const AddRecipeButton = styled.button`
   background-color: darkorange;
   font-family: 'Montserrat';
   color: #fff;
@@ -21,13 +22,22 @@ const Button = styled.button`
   border: none;
   outline: 0;
   border-radius: 2px;
+  cursor: pointer;
 `;
+/* <AddRecipeButton onClick={props.handleAddRecipeButton}>+ Recipe</AddRecipeButton> */
 
 export default function MenuToggle(props) {
-  console.log('MenuToggle Props: ', props);
+  console.log('Add Recipe Props: ', props);
+  const Button = () => (
+    <Link to="/recipe">
+      <AddRecipeButton onClick={props.handleAddRecipeButton}>
+        + Recipe
+      </AddRecipeButton>
+    </Link>
+  );
   return (
     <ButtonWrapperDiv onClick={props.handleAddRecipeButton}>
-      <Button onClick={props.handleAddRecipeButton}>+ Recipe</Button>
+      <Button />
     </ButtonWrapperDiv>
   );
 }

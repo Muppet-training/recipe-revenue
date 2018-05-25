@@ -1,29 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link, Switch, Redirect } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { injectGlobal } from 'styled-components';
 import RecipeRevenue from './RecipeRevenue';
 import Home from './Home';
+import RecipeList from './RecipeComponents/RecipeList/RecipeList';
+import Navbar from './Menus/Navbar';
+import MainMenu from './Menus/MainMenu';
 
-const StyledDiv = styled.div`
-  font-family: 'Montserrat' !important;
-  font-weight: 300;
-  color: #212121;
-  font-size: 14px;
-  text-align: left;
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 400;
-  }
-  input,
-  textarea,
-  select,
-  button {
-    font-weight: 400;
+injectGlobal`
+  body{
+    font-family: 'Montserrat' !important;
+    font-weight: 300;
+    color: #212121;
+    font-size: 14px;
+    text-align: left;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 400;
+    }
+    input,
+    textarea,
+    select,
+    button {
+      font-weight: 400;
+    }
+    a{
+      text-decoration: none;
+      outline: 0;
+    }
   }
 `;
 
@@ -90,6 +99,7 @@ class App extends React.Component {
   }
 
   handleToggleClick(e) {
+    console.log('State: ', this.state);
     this.setState({ menuVisible: !this.state.menuVisible });
   }
 
@@ -139,29 +149,79 @@ class App extends React.Component {
   }
 
   render() {
+    const RecipeRevenueWrapper = styled.div`
+      margin: 0px;
+      padding: 0px;
+      width: 100%;
+      min-height: 100%;
+      /* background-color: #f1f1f1; */
+      background-color: #f7f7f7;
+      position: absolute;
+      top: 40px;
+    `;
+
+    const ContentSection = styled.div`
+      margin: 0px;
+      padding-left: ${this.state.menuVisible ? '220px' : '40px'};
+      padding-right: 5px;
+      padding-top: 40px;
+      width: 100%;
+      height: 100%;
+      /* background-color: red; #f7f7f7; */
+      box-sizing: border-box;
+      overflow-x: hidden;
+    `;
     return (
       <BrowserRouter>
-        <StyledDiv>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route
-              path="/recipe"
-              render={props => (
-                <RecipeRevenue
-                  {...this.state}
-                  handleToggleClick={this.handleToggleClick.bind(this)}
-                  handleAddRecipeButton={this.handleAddRecipeButton.bind(this)}
-                  handleRecipeAdd={this.handleRecipeAdd.bind(this)}
-                  handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
-                  onDeleteRecipe={this.handleRecipeDelete.bind(this)}
-                  onEditRecipe={this.handleRecipeEdit.bind(this)}
-                  // ----Space
-                  handleCalc={this.handleCalc.bind(this)}
-                />
-              )}
+        <RecipeRevenueWrapper>
+          <Navbar
+            handleToggleClick={this.handleToggleClick.bind(this)}
+            handleAddRecipeButton={this.handleAddRecipeButton.bind(this)}
+          />
+          {this.state.menuVisible ? (
+            <MainMenu
+              menuItems={this.state.menuItems}
+              menuVisible={this.state.menuVisible}
+              handleSubMenuClick={this.state.handleSubMenuClick}
             />
-          </Switch>
-        </StyledDiv>
+          ) : (
+            ''
+          )}
+          <ContentSection menuVisible={this.props.menuVisible}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route
+                path="/recipes"
+                render={props => (
+                  <RecipeList
+                    {...this.state}
+                    onEditRecipe={this.handleRecipeEdit.bind(this)}
+                    // ----Space
+                    handleCalc={this.handleCalc.bind(this)}
+                  />
+                )}
+              />
+              <Route
+                path="/recipe"
+                render={props => (
+                  <RecipeRevenue
+                    {...this.state}
+                    handleToggleClick={this.handleToggleClick.bind(this)}
+                    handleAddRecipeButton={this.handleAddRecipeButton.bind(
+                      this
+                    )}
+                    handleRecipeAdd={this.handleRecipeAdd.bind(this)}
+                    handleUpdateRecipe={this.handleUpdateRecipe.bind(this)}
+                    onDeleteRecipe={this.handleRecipeDelete.bind(this)}
+                    onEditRecipe={this.handleRecipeEdit.bind(this)}
+                    // ----Space
+                    handleCalc={this.handleCalc.bind(this)}
+                  />
+                )}
+              />
+            </Switch>
+          </ContentSection>
+        </RecipeRevenueWrapper>
       </BrowserRouter>
     );
   }

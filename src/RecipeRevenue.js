@@ -15,7 +15,7 @@ const RecipeRevenueWrapper = styled.div`
   min-height: 100%;
   background-color: #f1f1f1;
   position: absolute;
-  top: 50px;
+  top: 40px;
 `;
 
 const ContentSection = styled.div`
@@ -27,6 +27,7 @@ const ContentSection = styled.div`
   height: 100%;
   background-color: #f7f7f7;
   box-sizing: border-box;
+  overflow-x: hidden;
 `;
 
 const PushDownDiv = styled.div`
@@ -69,27 +70,29 @@ export default class RecipeRevenue extends React.Component {
   render() {
     console.log('RecipeRevenue - Passed Props: ', this.props);
     return (
-      <RecipeRevenueWrapper>
-        <Navbar
-          handleToggleClick={this.props.handleToggleClick}
-          handleAddRecipeButton={this.props.handleAddRecipeButton}
-        />
-        {this.props.menuVisible ? (
-          <MainMenu
-            menuItems={this.props.menuItems}
-            menuVisible={this.props.menuVisible}
-            handleSubMenuClick={this.props.handleSubMenuClick}
-          />
-        ) : (
-          ''
-        )}
-        <ContentSection menuVisible={this.props.menuVisible}>
-          <RecipeDetails {...this.props} />
-          {/* <RecipeForm /> */}
-          <DF {...this.props} />
-          <RecipeList {...this.props} />
-        </ContentSection>
-      </RecipeRevenueWrapper>
+      // <RecipeRevenueWrapper>
+      // {/* <Navbar
+      //   handleToggleClick={this.props.handleToggleClick}
+      //   handleAddRecipeButton={this.props.handleAddRecipeButton}
+      // />
+      // {this.props.menuVisible ? (
+      //   <MainMenu
+      //     menuItems={this.props.menuItems}
+      //     menuVisible={this.props.menuVisible}
+      //     handleSubMenuClick={this.props.handleSubMenuClick}
+      //   />
+      // ) : (
+      //   ''
+      // )} */}
+      // <ContentSection menuVisible={this.props.menuVisible}>
+      <div>
+        <RecipeDetails {...this.props} />
+        {/* <RecipeForm /> */}
+        <DF {...this.props} />
+        <RecipeList {...this.props} />
+      </div>
+      // </ContentSection>
+      // {/* </RecipeRevenueWrapper> */}
     );
   }
 }

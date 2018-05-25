@@ -96,10 +96,6 @@ class DetailsForm extends React.Component {
     };
   }
   static getDerivedStateFromProps(nextProps, prevState) {
-    // console.log('Passing Props!: ', nextProps);
-    if (nextProps.editingId === prevState.recipeToUpdate.id) {
-      return null;
-    }
     if (nextProps.editingId == 0) {
       const filterRecipe = [
         {
@@ -115,11 +111,14 @@ class DetailsForm extends React.Component {
         }
       ];
       return { recipeToUpdate: filterRecipe[0] };
+    } else {
+      const filterRecipe = nextProps.recipes.filter(
+        recipe => recipe.id === nextProps.editingId
+      );
+      console.log('filterRecipe', filterRecipe);
+      return { recipeToUpdate: filterRecipe[0] };
     }
-    const filterRecipe = nextProps.recipes.filter(
-      recipe => recipe.id === nextProps.editingId
-    );
-    return { recipeToUpdate: filterRecipe[0] };
+    return null;
   }
   onChange(e) {
     e.preventDefault();

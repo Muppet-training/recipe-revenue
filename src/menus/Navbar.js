@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import MenuToggle from './MenuToggle';
 import AddRecipe from './AddRecipe';
 
@@ -29,6 +30,7 @@ const Button = styled.button`
   height: 30px;
   outline: 0px;
   border: none;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
@@ -51,6 +53,7 @@ const Toggle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const Buttons = styled.div`
@@ -59,20 +62,6 @@ const Buttons = styled.div`
   justify-self: right;
 `;
 
-// const NavbarNav = styled.nav`
-//   background-color: #212121;
-//   height: 50px;
-//   position: fixed;
-//   top: 0;
-//   width: 100vw;
-//   padding: 0;
-//   margin: 0;
-//   display: flex;
-//   justify: center;
-//   z-index: 2;
-// `;
-// display: table;
-
 export default function Navbar(props) {
   // console.log("Navbar Props: ", props);
   return (
@@ -80,7 +69,9 @@ export default function Navbar(props) {
       <Toggle onClick={props.handleToggleClick}>
         <Button onClick={props.handleToggleClick}>x</Button>
       </Toggle>
-      <Title>Recipe Revenue</Title>
+      <Link to="/">
+        <Title>Recipe Revenue</Title>
+      </Link>
       <Buttons>
         <AddRecipe {...props} />
       </Buttons>
